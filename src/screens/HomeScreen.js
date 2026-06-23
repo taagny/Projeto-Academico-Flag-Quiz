@@ -6,6 +6,7 @@ import {
   Animated,
   StyleSheet,
   StatusBar,
+  BackHandler,
 } from 'react-native';
 
 export default function HomeScreen({ onStart }) {
@@ -36,6 +37,14 @@ export default function HomeScreen({ onStart }) {
           <Text style={styles.buttonText}>Iniciar Jogo</Text>
         </TouchableOpacity>
       </Animated.View>
+
+      <TouchableOpacity
+        style={styles.closeButton}
+        onPress={() => BackHandler.exitApp()}
+        activeOpacity={0.75}
+      >
+        <Text style={styles.closeText}>Fechar app</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -92,5 +101,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '800',
     letterSpacing: 1,
+  },
+  closeButton: {
+    marginTop: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+  },
+  closeText: {
+    color: '#64748b',
+    fontSize: 15,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
   },
 });

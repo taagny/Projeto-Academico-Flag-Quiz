@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-export default function ResultScreen({ correct, level, onNext }) {
+export default function ResultScreen({ correct, level, onNext, onExit }) {
   const scale = useRef(new Animated.Value(0.5)).current;
 
   useEffect(() => {
@@ -21,6 +21,7 @@ export default function ResultScreen({ correct, level, onNext }) {
 
   return (
     <View style={correct ? styles.successContainer : styles.failContainer}>
+
       {/* Ícone animado */}
       <Animated.View style={{ transform: [{ scale }] }}>
         <Text style={styles.emoji}>{correct ? '🏆' : '❌'}</Text>
@@ -36,11 +37,18 @@ export default function ResultScreen({ correct, level, onNext }) {
           : 'Você errou. Vamos tentar novamente?'}
       </Text>
 
+      {/* Botão principal */}
       <TouchableOpacity style={styles.button} onPress={onNext} activeOpacity={0.85}>
         <Text style={styles.buttonText}>
           {correct ? `Ir para o Nível ${level + 1}` : 'Nova Rodada'}
         </Text>
       </TouchableOpacity>
+
+      {/* Botão de voltar ao início */}
+      <TouchableOpacity style={styles.exitButton} onPress={onExit} activeOpacity={0.75}>
+        <Text style={styles.exitText}>✕ Voltar ao início</Text>
+      </TouchableOpacity>
+
     </View>
   );
 }
@@ -92,5 +100,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '800',
     letterSpacing: 0.5,
+  },
+  exitButton: {
+    marginTop: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+  },
+  exitText: {
+    color: '#94a3b8',
+    fontSize: 15,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
   },
 });

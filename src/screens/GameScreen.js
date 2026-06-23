@@ -12,11 +12,10 @@ import {
 
 const { width } = Dimensions.get('window');
 
-export default function GameScreen({ level, question, onAnswer, shake }) {
+export default function GameScreen({ level, question, onAnswer, shake, onExit }) {
   const shakeAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  // Animação de entrada sempre que a pergunta muda
   useEffect(() => {
     fadeAnim.setValue(0);
     Animated.timing(fadeAnim, {
@@ -26,7 +25,6 @@ export default function GameScreen({ level, question, onAnswer, shake }) {
     }).start();
   }, [question]);
 
-  // Animação de shake quando erra
   useEffect(() => {
     if (!shake) return;
     Animated.sequence([
@@ -40,9 +38,15 @@ export default function GameScreen({ level, question, onAnswer, shake }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Badge de nível */}
-      <View style={styles.levelBadge}>
-        <Text style={styles.levelText}>Nível {level}</Text>
+
+      {/* Header com botão de sair e badge de nível */}
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.exitButton} onPress={onExit} activeOpacity={0.75}>
+          <Text style={styles.exitText}>✕ Sair</Text>
+        </TouchableOpacity>
+        <View style={styles.levelBadge}>
+          <Text style={styles.levelText}>Nível {level}</Text>
+        </View>
       </View>
 
       {/* Card da bandeira */}
@@ -97,12 +101,31 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingHorizontal: 20,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 24,
+  },
+  exitButton: {
+    backgroundColor: '#1e293b',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: '#334155',
+  },
+  exitText: {
+    color: '#94a3b8',
+    fontWeight: '700',
+    fontSize: 14,
+  },
   levelBadge: {
     backgroundColor: '#1e40af',
     paddingVertical: 6,
     paddingHorizontal: 22,
     borderRadius: 20,
-    marginBottom: 24,
   },
   levelText: {
     color: '#bfdbfe',
